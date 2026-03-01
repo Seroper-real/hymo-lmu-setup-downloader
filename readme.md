@@ -2,6 +2,12 @@
 
 🇮🇹 [Leggi questo README in Italiano](readme.it.md)
 
+ <p align="center">
+  <a href="https://github.com/Seroper-real/hymo-lmu-setup-downloader/releases/latest/download/hymo-lmu-setup-downloader_Windows.zip">
+    <img src="https://img.shields.io/github/v/release/Seroper-real/hymo-lmu-setup-downloader?label=DOWNLOAD&style=for-the-badge&color=brightgreen" alt="Download">
+  </a>
+</p>
+
 ## Introduction
 
 This project was created **purely for convenience**.
@@ -37,7 +43,7 @@ Without an active subscription, this tool **will not work**.
 
 ### Step 1 – Download
 
-1. Download the `.zip` file from the **Releases** section
+1. [Download](https://github.com/Seroper-real/hymo-lmu-setup-downloader/releases/latest/download/hymo-lmu-setup-downloader_Windows.zip) the `.zip` file
 2. Extract the contents to a folder of your choice
 
 ⚠️ **Recommended**
