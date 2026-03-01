@@ -1,0 +1,38 @@
+{
+    "logging": {
+        "console": {
+            "level": "INFO",
+            "format": "%(message)s"
+        },
+        "file": {
+            "level": "DEBUG",
+            "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        }
+    },
+    "network": {
+        "base_url": "https://services.tracktitan.io/api",
+        "consumer_id": "trackTitan",
+        "page_size": 12,
+        "min_delay": 0.5,
+        "max_delay": 1.5
+    },
+    "paths": {
+        "download": {
+            "base_path": "downloads",
+            "clean_download_after_copy": false
+        },
+        "setups": {
+            "overwrite": false,
+            "delete_previous_version": true,
+            "lmu_base_path": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Le Mans Ultimate\\UserData\\player\\Settings",
+            "file_extensions": [
+                ".svm"
+            ]
+        }
+    },
+    "remote_tracks": {
+        "enabled": true,
+        "url": "https://raw.githubusercontent.com/Seroper-real/hymo-lmu-setup-downloader/refs/heads/main/config/tracks.json",
+        "timeout": 5
+    }
+}

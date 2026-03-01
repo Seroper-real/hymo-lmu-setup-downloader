@@ -1,0 +1,97 @@
+{
+    "version": 1.0,
+    "tracks": [
+        {
+            "tt_folder_name": [
+                "Losail - WEC",
+                "Losail"
+            ],
+            "lmu_folder_name": "Qatar"
+        },
+        {
+            "tt_folder_name": [
+                "Imola - WEC",
+                "Imola"
+            ],
+            "lmu_folder_name": "Imola"
+        },
+        {
+            "tt_folder_name": [
+                "COTA - WEC",
+                "COTA"
+            ],
+            "lmu_folder_name": "Circuit Of The Americas"
+        },
+        {
+            "tt_folder_name": [
+                "Spa - WEC",
+                "Spa"
+            ],
+            "lmu_folder_name": "Spa"
+        },
+        {
+            "tt_folder_name": [
+                "Bahrain - WEC",
+                "Bahrain",
+                "Bahrain International Circuit"
+            ],
+            "lmu_folder_name": "Bahrain"
+        },
+        {
+            "tt_folder_name": [
+                "Le Mans - WEC",
+                "Le Mans"
+            ],
+            "lmu_folder_name": "Lemans"
+        },
+        {
+            "tt_folder_name": [
+                "Interlagos - WEC",
+                "Interlagos"
+            ],
+            "lmu_folder_name": "Interlagos"
+        },
+        {
+            "tt_folder_name": [
+                "Paul Ricard - ELMS",
+                "Paul Ricard"
+            ],
+            "lmu_folder_name": "Paulricard"
+        },
+        {
+            "tt_folder_name": [
+                "Fuji - WEC",
+                "Fuji"
+            ],
+            "lmu_folder_name": "Fuji"
+        },
+        {
+            "tt_folder_name": [
+                "Portimao - WEC",
+                "Portimao"
+            ],
+            "lmu_folder_name": "Portimao"
+        },
+        {
+            "tt_folder_name": [
+                "Monza - WEC",
+                "Monza"
+            ],
+            "lmu_folder_name": "Monza"
+        },
+        {
+            "tt_folder_name": [
+                "Sebring - WEC",
+                "Sebring"
+            ],
+            "lmu_folder_name": "Sebring"
+        },
+        {
+            "tt_folder_name": [
+                "Silverstone Grand Prix Circuit - ELMS",
+                "Silverstone"
+            ],
+            "lmu_folder_name": "Silverstone"
+        }
+    ]
+}
