@@ -119,6 +119,15 @@ Se LMU è installato in un percorso diverso da quello di default, aggiornalo rad
 
 ---
 
+## ☕ Sostieni il mio lavoro
+Se trovi utile questo progetto e vuoi supportarne lo sviluppo, offrimi un caffè! 
+
+Ogni piccolo contributo aiuta a mantenere a mantenere attivo il progetto. Grazie di cuore!
+
+[![](https://storage.ko-fi.com/cdn/kofi3.png?v=3)](https://ko-fi.com/seroper)
+
+---
+
 ## Configurazione JSON
 
 Il file `config.json` controlla interamente il comportamento del downloader.

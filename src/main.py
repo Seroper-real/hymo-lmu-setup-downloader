@@ -70,5 +70,7 @@ if __name__ == "__main__":
         sys.exit(0)
     except Exception as e:
         print(f"\n[ERROR]: {e}")
+        print("Check readme for instructions: https://github.com/Seroper-real/hymo-lmu-setup-downloader/blob/main/readme.md")
+        print("Istruzioni in italiano: https://github.com/Seroper-real/hymo-lmu-setup-downloader/blob/main/readme.it.md")
         input("\nPress Enter to close...")
         sys.exit(1)

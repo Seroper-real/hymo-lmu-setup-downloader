@@ -118,7 +118,14 @@ If LMU is installed in a different location, update the path using double backsl
 - To stop the program, press `CTRL + C` in the terminal
 
 ---
+## ☕ Support my work
+If you find this project useful and want to support its development, consider buying me a coffee!
 
+[![](https://storage.ko-fi.com/cdn/kofi3.png?v=3)](https://ko-fi.com/seroper)
+
+*Every coffee helps me keep the lights on and the code flowing.*
+
+---
 ## JSON Configuration
 
 The `config.json` file fully controls the downloader behavior.
