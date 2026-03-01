@@ -39,6 +39,8 @@ jobs:
           copy config\config.json release_pkg\config\
           copy config\tracks.json release_pkg\config\
           copy .env.sample release_pkg\.env
+          copy readme.md release_pkg\
+          copy readme.it.md release_pkg\
           powershell -Command "Compress-Archive -Path 'release_pkg\*' -DestinationPath 'hymo-lmu-setup-downloader_Windows.zip' -Force"
 
       - name: Crea Release e carica Asset

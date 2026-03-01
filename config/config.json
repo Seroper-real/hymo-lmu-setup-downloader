@@ -19,7 +19,7 @@
     "paths": {
         "download": {
             "base_path": "downloads",
-            "clean_download_after_copy": false
+            "clean_download_after_copy": true
         },
         "setups": {
             "overwrite": false,
