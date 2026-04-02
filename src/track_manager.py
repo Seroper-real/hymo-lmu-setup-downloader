@@ -1,4 +1,5 @@
 import json
+import unicodedata
 import requests
 import logging
 from config import REMOTE_TRACKS_ENABLED, REMOTE_TRACKS_TIMEOUT, REMOTE_TRACKS_URL
@@ -10,15 +11,19 @@ class TrackManager:
 
     def __init__(self):
         self.tracks_json_path = get_path("config/tracks.json")
+        self.track_map: dict[str, str] = self.build_tracks_map()
         pass
 
-    def load_local_tracks(self) -> dict | None:
+    def _normalize_track(self, track: str) -> str:
+        return unicodedata.normalize("NFC", track).lower().strip()
+
+    def _load_local_tracks(self) -> dict | None:
         if self.tracks_json_path.exists():
-            with open(self.tracks_json_path, "r") as f:
+            with open(self.tracks_json_path, "r", encoding="utf-8") as f:
                 return json.load(f)
         else: return None
 
-    def load_remote_tracks(self) -> dict | None:
+    def _load_remote_tracks(self) -> dict | None:
         if REMOTE_TRACKS_ENABLED:
             try:
                 response = requests.get(REMOTE_TRACKS_URL, timeout=REMOTE_TRACKS_TIMEOUT)
@@ -29,8 +34,8 @@ class TrackManager:
         return None
 
     def build_tracks_map(self) -> dict:
-        self.local_json = self.load_local_tracks()
-        self.remote_json = self.load_remote_tracks()
+        self.local_json = self._load_local_tracks()
+        self.remote_json = self._load_remote_tracks()
         
         local_version: int = (self.local_json or {}).get("version", -1)
         remote_version: int = (self.remote_json or {}).get("version", -1)
@@ -48,7 +53,10 @@ class TrackManager:
             raise RuntimeError("No tracks mapping file found. Both local and remote files are missing or inaccessible.")
         
         return {
-            tt_name.lower(): track["lmu_folder_name"]
+            self._normalize_track(tt_name).lower(): track["lmu_folder_name"]
             for track in tracks_data
             for tt_name in track["tt_folder_name"]
         }
+    
+    def get_track_folder_name(self, track:str) -> str | None:
+         return self.track_map.get(self._normalize_track(track).lower())
