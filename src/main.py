@@ -51,6 +51,8 @@ if __name__ == "__main__":
         download_manager = DownloadManager(database=database)
         setup_manager = SetupManager(track_map=track_map,database=database)
 
+        setup_manager.update_tracks_not_found()
+
         while setups:=download_manager.get_setups_list():
             for setup in setups:
                 log.info(f"#################")

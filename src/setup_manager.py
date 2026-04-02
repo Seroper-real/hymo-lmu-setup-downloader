@@ -5,7 +5,7 @@ import patoolib
 from config import CLEAN_DOWNLOAD, DOWNLOAD_PATH, OVERWRITE, SETUP_FILE_EXTENSIONS, LMU_SETUPS_BASE_PATH, DELETE_PREVIOUS_VERSION
 from setup import Setup
 from utils import get_path
-from setup_db import SetupDb
+from setup_db import InstalledSetup, SetupDb
 
 log = logging.getLogger("TrackTitanDownloader")
 
@@ -26,16 +26,26 @@ class SetupManager:
 
 
     def install_setup(self,downloaded_path: str | Path, setup: Setup) -> None:
+        if not downloaded_path:
+            if not self.database.is_track_found(setup.id):
+                #Setup is already downloaded at its last version. But last time track folder wasn't found.
+                #Check if this time setup folder is present in configuration and move files.
+                
+                return
+            else:
+                #Setup already updated, no operation needed
+                return
+
         extraction_path = Path(DOWNLOAD_PATH / setup.id)
         if extraction_path.exists(): shutil.rmtree(extraction_path) #To clean previous interrupted elaborations and prevent duplicate file name in extraction
         self.unzip_recursive(downloaded_path, extraction_path)
-        setup_installation_dir = self.calculate_setup_installation_dir(setup.track)
+        (setup_installation_dir, trackFound) = self.calculate_setup_installation_dir(setup.track)
         extracted_files: list[Path] = self.copy_file_to_lmu(extraction_path, setup_installation_dir)
         installed: bool = len(extracted_files) > 0 
         if not installed: log.warning(f"Setup not installed! Not deleting download for manual installation: {setup.id} - {setup.track} - {setup.car}")
         else:
             if DELETE_PREVIOUS_VERSION: self.cleanup_old(self.database.fetch_setup_files(setup.id),setup_installation_dir, extracted_files)
-            self.database.add_installed_setup(setup,extracted_files)
+            self.database.add_installed_setup(setup,extracted_files, trackFound, setup_installation_dir)
         self.cleanup_temp(downloaded_path,extraction_path,installed)
 
     def unzip_recursive(self, zip_path: str | Path, dest_dir: str | Path) -> None:
@@ -66,15 +76,15 @@ class SetupManager:
             if p.is_file() and p.suffix.lower() in extensions
         ]
     
-    def calculate_setup_installation_dir(self, track: str) -> Path:
+    def calculate_setup_installation_dir(self, track: str) -> tuple[Path, bool]:
         track_folder_name = self.track_map.get(track.lower())
         
         if track_folder_name:
-            return self.lmu_setups_base_path / track_folder_name
+            return (self.lmu_setups_base_path / track_folder_name,False)
         else:
             new_track = f"{track}-HYMO"
             log.warning(f"Track not found in track map: {track}. Will copy using the HYMO track name: {new_track}")
-            return self.lmu_setups_base_path / new_track
+            return (self.lmu_setups_base_path / new_track,True)
 
 
     def copy_file_to_lmu(self, extraction_path: str | Path, setup_installation_dir: Path) -> list[Path]:
@@ -117,3 +127,56 @@ class SetupManager:
             old_setup_path = setup_installation_dir / old_setup
             old_setup_path.unlink()
             log.info(f"Deleted previous setup: {old_setup_path}")
+
+    def update_tracks_not_found(self) -> None:
+        setups_missing_tracks: list[InstalledSetup] = self.database.fetch_tracks_not_found()
+        for setup in setups_missing_tracks:
+            self._try_relocate_setup(setup)
+        pass
+
+    def _try_relocate_setup(self, setup: InstalledSetup) -> None:
+        (setup_installation_dir, track_not_found) = self.calculate_setup_installation_dir(setup.track)
+        
+        if track_not_found:
+            log.debug(f"Track still not found in configuration, skipping relocation: {setup.track} for {setup.setup_id}")
+            return
+
+        if not setup.installation_base_path:
+            log.warning(f"installation_base_path not found in DB for setup: {setup.setup_id}")
+            return
+
+        if not setup.installation_folder:
+            log.warning(f"installation_folder not found in DB for setup: {setup.setup_id}")
+            return
+
+        file_names = self.database.fetch_setup_files(setup.setup_id)
+        if not file_names:
+            log.warning(f"No files found in DB for setup: {setup.setup_id}")
+            return
+
+        old_installation_dir = Path(setup.installation_base_path) / Path(setup.installation_folder)
+
+        moved_files: list[Path] = []
+        for file_name in file_names:
+            src = old_installation_dir / file_name
+            dst = setup_installation_dir / file_name
+            if src.exists():
+                setup_installation_dir.mkdir(parents=True, exist_ok=True)
+                shutil.move(str(src), dst)
+                moved_files.append(dst)
+                log.info(f"Relocated setup file: {src} -> {dst}")
+            else:
+                log.warning(f"Expected setup file not found during relocation: {src}")
+
+        if moved_files:
+            setup.installation_folder = str(setup_installation_dir.name)
+            setup.installation_base_path = str(setup_installation_dir.parent)
+            setup.track_found = True
+            self.database.update_installed_setup(setup)
+            log.info(f"Setup relocated successfully: {setup.setup_id} -> {setup_installation_dir}")
+            if old_installation_dir.exists() and not any(old_installation_dir.iterdir()):
+                try:
+                    old_installation_dir.rmdir()
+                    log.info(f"Deleted empty old installation directory: {old_installation_dir}")
+                except OSError as e:
+                    log.warning(f"Could not delete old installation directory {old_installation_dir}: {e}")
