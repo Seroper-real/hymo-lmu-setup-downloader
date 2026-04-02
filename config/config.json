@@ -12,7 +12,7 @@
     "network": {
         "base_url": "https://services.tracktitan.io/api",
         "consumer_id": "trackTitan",
-        "page_size": 12,
+        "page_size": 64,
         "min_delay": 0.5,
         "max_delay": 1.5
     },

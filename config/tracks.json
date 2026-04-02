@@ -1,10 +1,11 @@
 {
-    "version": 1.0,
+    "version": 1.1,
     "tracks": [
         {
             "tt_folder_name": [
                 "Losail - WEC",
-                "Losail"
+                "Losail",
+                "Lusail International Circuit"
             ],
             "lmu_folder_name": "Qatar"
         },
@@ -40,14 +41,16 @@
         {
             "tt_folder_name": [
                 "Le Mans - WEC",
-                "Le Mans"
+                "Le Mans",
+                "Le Mans La Sarthe"
             ],
             "lmu_folder_name": "Lemans"
         },
         {
             "tt_folder_name": [
                 "Interlagos - WEC",
-                "Interlagos"
+                "Interlagos",
+                "Autódromo José Carlos Pace (Interlagos)"
             ],
             "lmu_folder_name": "Interlagos"
         },
@@ -92,6 +95,12 @@
                 "Silverstone"
             ],
             "lmu_folder_name": "Silverstone"
+        },
+        {
+            "tt_folder_name": [
+                "Circuit de Barcelona"
+            ],
+            "lmu_folder_name": "Circuit De Barcelona"
         }
     ]
 }

@@ -47,9 +47,8 @@ if __name__ == "__main__":
 
         database = SetupDb()
         track_manager = TrackManager()
-        track_map = track_manager.build_tracks_map()
         download_manager = DownloadManager(database=database)
-        setup_manager = SetupManager(track_map=track_map,database=database)
+        setup_manager = SetupManager(track_manager=track_manager,database=database)
 
         setup_manager.update_tracks_not_found()
 

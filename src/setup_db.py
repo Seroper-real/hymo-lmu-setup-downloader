@@ -165,7 +165,7 @@ class SetupDb:
     def fetch_tracks_not_found(self) -> list[InstalledSetup]:
         cursor = self.conn.cursor()
         try:
-            cursor.execute("SELECT * FROM installed_setups WHERE track_found = 0 OR track_found IS NULL")
+            cursor.execute("SELECT * FROM installed_setups WHERE track_found = 0") #OR track_found IS NULL (for now not consider null values, because are probably pre-migration values)
             return [InstalledSetup.from_row(row) for row in cursor.fetchall()]
         except Exception as e:
             log.error(f"Error fetching unresolved tracks: {e}")
