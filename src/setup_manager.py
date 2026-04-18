@@ -116,8 +116,9 @@ class SetupManager:
 
         for old_setup in to_be_deleted:
             old_setup_path = setup_installation_dir / old_setup
-            old_setup_path.unlink()
-            log.info(f"Deleted previous setup: {old_setup_path}")
+            if old_setup_path.exists():
+                old_setup_path.unlink()
+                log.info(f"Deleted previous setup: {old_setup_path}")
 
     def update_tracks_not_found(self) -> None:
         setups_missing_tracks: list[InstalledSetup] = self.database.fetch_tracks_not_found()
